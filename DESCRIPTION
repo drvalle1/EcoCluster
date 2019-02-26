@@ -1,0 +1,17 @@
+Package: tsbp
+Title: What the Package Does (one line, title case)
+Version: 1.0
+Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
+Description: What the package does (one paragraph).
+Depends: R (>= 3.4.3)
+Imports: Rcpp, mvtnorm
+LinkingTo: Rcpp
+LazyData: true
+Suggests: rmarkdown, knitr, testthat
+VignetteBuilder: knitr
+License: What license is it under?
+RoxygenNote: 6.0.1
+NeedsCompilation: yes
+Packaged: 2019-02-10 23:39:18 UTC; Brenda
+Author: First Last [aut, cre]
+Maintainer: First Last <first.last@example.com>

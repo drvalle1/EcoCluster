@@ -1,0 +1,79 @@
+---
+title: "tsbp"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{tsbp}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+```
+
+This vignette illustrates three different types of Bayesian clustering methods using truncated stick-breaking priors: mixture models, stochastic block models (SBM), and species archetype models (SAM). We apply these three clustering methods to simulated data to showcase how the number of groups can be successfully recovered.
+
+## Datasets
+
+The simulated datasets can be loaded as follows for all three types of models:
+```{r, eval=TRUE}
+library(tsbp)
+library(mvtnorm)
+data(data_mixture)
+data(data_sbm)
+data(data_sam) 
+```
+The objects `data_mixture`, `data_sbm`, and `data_sam` contain presence/absence data for different locations (rows) and species (columns). For SAM, we also need data on covariates, which are stored in the object `xmat`, where rows are different locations and columns correspond to different covariates. 
+
+```{r, eval=TRUE}
+# fake data mixtures
+head(data_mixture)
+# fake data SBM
+head(data_sbm)
+# fake data SAM model
+head(data_sam)
+head(xmat)
+```
+
+## Posterior Results
+
+To obtain posterior samples of the cluster assignments and the model parameters for mixture models the function `mixture.gibbs.main.func` function is use. The user needs to specify the data, the desired number of groups, the number of iterations and the burn-in period as follows: 
+
+```{r, eval=TRUE}
+ngibbs <- 10
+PosMix <- mixture.gibbs.main.func(dat=data_mixture,ngroup=50,ngibbs=ngibbs,burnin=ngibbs/2)
+```
+
+The output is a list with five elements: 
+
+* `phi`:   probability of observing each species in each group
+* `theta`: probability of each location group
+* `logl`:  log-likelihood 
+* `z`:     cluster assignment of each location
+* `gamma`: TSB prior parameter
+
+
+```{r, eval=TRUE}
+PosMix$phi[1:5,1:10]
+PosMix$theta[1:5,1:5]
+```
+
+To obtain samples from the SBM, the `SBM` function should be used instead. Specify ....:
+```{r, eval=TRUE}
+ngibbs <- 10
+ngroup.loc <- 10
+ngroup.spp <- 10
+PosSBM <- SBM(dat=data_sbm,ngroup.loc=ngroup.loc,ngroup.spp=ngroup.spp,ngibbs=ngibbs,burnin=ngibbs/2)
+names(PosSBM)
+PosSBM$gamma
+```
+For the SAM, use the `gibbs.SAM` function:
+
+```{r, eval=TRUE}
+ngibbs <- 10
+ngroups <- 50
+PosSAM <- gibbs.SAM(y=y,xmat=xmat,ngroups=ngroups,ngibbs=ngibbs,burnin=ngibbs/2)
+names(PosSAM)
+```
+
+
