@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Sample w</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for sample.w {EcoCluster}"><tr><td>sample.w {EcoCluster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Sample w</h2>
+
+<h3>Description</h3>
+
+<p>Sample the vector w containing the membership of each species
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+sample.w(lphi, dat, dat1m, lpsi, l1mpsi, ngroup.spp, ngroup.loc, nloc,
+  nspp, w, z)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>lphi</code></td>
+<td>
+<p>equal to log(phi)</p>
+</td></tr>
+<tr valign="top"><td><code>dat</code></td>
+<td>
+<p>L x S matrix, containing the presence-absence data</p>
+</td></tr>
+<tr valign="top"><td><code>dat1m</code></td>
+<td>
+<p>L x S matrix, calculated as 1-dat</p>
+</td></tr>
+<tr valign="top"><td><code>lpsi</code></td>
+<td>
+<p>equal to log(psi)</p>
+</td></tr>
+<tr valign="top"><td><code>l1mpsi</code></td>
+<td>
+<p>equal to log(1-psi)</p>
+</td></tr>
+<tr valign="top"><td><code>ngroup.spp</code></td>
+<td>
+<p>thismaximum number of species groups (KS)</p>
+</td></tr>
+<tr valign="top"><td><code>ngroup.loc</code></td>
+<td>
+<p>maximum number of location groups (KL)</p>
+</td></tr>
+<tr valign="top"><td><code>nloc</code></td>
+<td>
+<p>total number of locations (L)</p>
+</td></tr>
+<tr valign="top"><td><code>nspp</code></td>
+<td>
+<p>total number of species (S)</p>
+</td></tr>
+<tr valign="top"><td><code>w</code></td>
+<td>
+<p>vector of length S, storing the current membership of each species</p>
+</td></tr>
+<tr valign="top"><td><code>z</code></td>
+<td>
+<p>vector of length L, storing the current membership of each locations</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>this function returns a vector of length S containing w
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>EcoCluster</em> version 1.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

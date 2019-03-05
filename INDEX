@@ -1,0 +1,29 @@
+SBM                     Main function of the Stochastic Block Model
+                        (SBM)
+convertSBtoNormal       Convert the vector v into the vector theta/phi
+                        using the stick-breaking formula
+get.logl                Calculate the log-likelihood
+getql                   Summarize data for SBM according to the
+                        different location and species groups
+gibbs.SAM               Main function of the Species Archetype Model
+                        (SAM)
+mixture.gibbs.main.func
+                        Main function of the Mixture Model
+ncs                     Summarize the data for mixture model
+sample.alpha            Sample alpha
+sample.betas            Sample betas
+sample.cs               Sample cs
+sample.gamma            Sample the TSB prior parameter
+sample.gamma.sam        Sample gamma
+sample.gamma.u          Sample gamma.u
+sample.gamma.v          Sample gamma.v
+sample.omega            Sample omega
+sample.phi              Sample phi and uk parameters
+sample.psi              Sample psi parameters
+sample.theta            Sample theta and vk parameters
+sample.theta.sam        Sample theta
+sample.w                Sample w
+sample.z                Sample z
+tnorm                   Sample from a truncated normal distribution
+update.theta            Samples theta and v parameters
+update.z                Samples z

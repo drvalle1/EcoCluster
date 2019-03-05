@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Summarize data for SBM according to the different location...</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for getql {EcoCluster}"><tr><td>getql {EcoCluster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Summarize data for SBM according to the different location and species groups</h2>
+
+<h3>Description</h3>
+
+<p>This function determines how many observations are in each location group 
+and species group for two cases: 
+- when dat(i,j)=1: these results are stored in matrix nql1
+- when dat(i,j)=0: these results are stored in matrix nql0
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+getql(z, w, dat, ngrloc, ngrspp)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>z</code></td>
+<td>
+<p>integer vector with cluster assignments of locations</p>
+</td></tr>
+<tr valign="top"><td><code>w</code></td>
+<td>
+<p>integer vector with cluster assignments of species</p>
+</td></tr>
+<tr valign="top"><td><code>dat</code></td>
+<td>
+<p>this matrix has L rows (e.g., locations) and S columns (e.g., species)
+and contains the presence-absence data</p>
+</td></tr>
+<tr valign="top"><td><code>ngrloc</code></td>
+<td>
+<p>number of location groups (KL)</p>
+</td></tr>
+<tr valign="top"><td><code>ngrspp</code></td>
+<td>
+<p>number of species groups (KS)</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>this function returns a list with two KL x KS matrices: nql1 and nql0
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>EcoCluster</em> version 1.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

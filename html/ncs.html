@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Summarize the data for mixture model</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for ncs {EcoCluster}"><tr><td>ncs {EcoCluster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Summarize the data for mixture model</h2>
+
+<h3>Description</h3>
+
+<p>This function summarizes the data by calculating the number of locations for each 
+location group and species for which dat(i,j)=1 (stored in res1) and dat(i,j)=0 (stored in res0)
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ncs(dat, z, nspp, nloc, ngroup)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>dat</code></td>
+<td>
+<p>matrix with L rows (e.g., locations) and S columns (e.g., species),
+containing the presence-absence data</p>
+</td></tr>
+<tr valign="top"><td><code>z</code></td>
+<td>
+<p>vector of size L with cluster assignment for each location</p>
+</td></tr>
+<tr valign="top"><td><code>nspp</code></td>
+<td>
+<p>number of species (S)</p>
+</td></tr>
+<tr valign="top"><td><code>nloc</code></td>
+<td>
+<p>number of locations (L)</p>
+</td></tr>
+<tr valign="top"><td><code>ngroup</code></td>
+<td>
+<p>maximum number of groups (K)</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>this function returns a list containing two matrices of size K x S: res1 and res0
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>EcoCluster</em> version 1.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

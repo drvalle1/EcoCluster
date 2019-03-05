@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Sample phi and uk parameters</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for sample.phi {EcoCluster}"><tr><td>sample.phi {EcoCluster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Sample phi and uk parameters</h2>
+
+<h3>Description</h3>
+
+<p>Sample uk parameters from their full conditional distributions and
+then calculate the implied phi parameters
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+sample.phi(ngroup.spp, gamma.u, burnin, gibbs.step, phi, psi, w)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>ngroup.spp</code></td>
+<td>
+<p>maximum number of groups for species (KS)</p>
+</td></tr>
+<tr valign="top"><td><code>gamma.u</code></td>
+<td>
+<p>the truncated stick-breaking prior parameter for
+species groups. This value should be between 0 and 1, and
+small values enforce more parsimonius results (i.e., fewer groups)</p>
+</td></tr>
+<tr valign="top"><td><code>burnin</code></td>
+<td>
+<p>number of MCMC samples that are going to be thrown out as
+part of the burn-in phrase</p>
+</td></tr>
+<tr valign="top"><td><code>gibbs.step</code></td>
+<td>
+<p>current iteration of the gibbs sampler</p>
+</td></tr>
+<tr valign="top"><td><code>phi</code></td>
+<td>
+<p>vector of size KS containing the current estimate of phi (i.e., probability of each species group)</p>
+</td></tr>
+<tr valign="top"><td><code>psi</code></td>
+<td>
+<p>matrix of size KL x KS containing the current estimate  of psi</p>
+</td></tr>
+<tr valign="top"><td><code>w</code></td>
+<td>
+<p>vector of length S, storing the current membership of each species</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>this function returns a list with 4 items (phi, uk, w, psi)
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>EcoCluster</em> version 1.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

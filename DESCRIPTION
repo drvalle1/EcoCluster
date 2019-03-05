@@ -1,17 +1,23 @@
-Package: tsbp
-Title: What the Package Does (one line, title case)
+Package: EcoCluster
+Title: Bayesian Clustering using Truncated Stick-Breaking priors
 Version: 1.0
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
-Depends: R (>= 3.4.3)
+Author: Denis Valle <drvalle@ufl.edu>
+Maintainer: Denis Valle <drvalle@ufl.edu>
+Description: An implementation of three different types of Bayesian 
+    clustering methods: mixture models, stochastic block models, and 
+    species archetype models. The number of clusters is automatically 
+    estimated from the data using a Bayesian nonparametric approach 
+    based on truncated Stick-Breaking priors. 
+Depends: R (>= 3.5.2)
 Imports: Rcpp, mvtnorm
 LinkingTo: Rcpp
 LazyData: true
 Suggests: rmarkdown, knitr, testthat
 VignetteBuilder: knitr
-License: What license is it under?
-RoxygenNote: 6.0.1
+License: GPL-2
+Encoding: UTF-8
+RoxygenNote: 6.1.1.9000
 NeedsCompilation: yes
-Packaged: 2019-02-10 23:39:18 UTC; Brenda
-Author: First Last [aut, cre]
-Maintainer: First Last <first.last@example.com>
+Packaged: 2019-02-28 23:14:24 UTC; Brenda
+Built: R 3.5.2; x86_64-w64-mingw32; 2019-03-05 15:55:26 UTC; windows
+Archs: i386, x64

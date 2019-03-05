@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Sample betas</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for sample.betas {EcoCluster}"><tr><td>sample.betas {EcoCluster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Sample betas</h2>
+
+<h3>Description</h3>
+
+<p>This function generates samples of betas, the regression slope parameters
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+sample.betas(ngroups, cs, nparam, xtx, t.xmat, alpha, nloc, nspp, omega)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>ngroups</code></td>
+<td>
+<p>maximum number of species groups (KS)</p>
+</td></tr>
+<tr valign="top"><td><code>cs</code></td>
+<td>
+<p>vector of size S with group assignment for each species</p>
+</td></tr>
+<tr valign="top"><td><code>nparam</code></td>
+<td>
+<p>overall number of covariates (P)</p>
+</td></tr>
+<tr valign="top"><td><code>xtx</code></td>
+<td>
+<p>equal to t(X)*X</p>
+</td></tr>
+<tr valign="top"><td><code>t.xmat</code></td>
+<td>
+<p>equal to tranpose of the design matrix t(X)</p>
+</td></tr>
+<tr valign="top"><td><code>alpha</code></td>
+<td>
+<p>vector of size S with intercept for each species</p>
+</td></tr>
+<tr valign="top"><td><code>nloc</code></td>
+<td>
+<p>overall number of locations (L)</p>
+</td></tr>
+<tr valign="top"><td><code>nspp</code></td>
+<td>
+<p>overall number of species (S)</p>
+</td></tr>
+<tr valign="top"><td><code>omega</code></td>
+<td>
+<p>a matrix L x S containing the underlying latent variables omega</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>this function returns a P x KS matrix with regression slope parameters betas
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>EcoCluster</em> version 1.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

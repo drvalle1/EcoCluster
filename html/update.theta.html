@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Samples theta and v parameters</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for update.theta {EcoCluster}"><tr><td>update.theta {EcoCluster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Samples theta and v parameters</h2>
+
+<h3>Description</h3>
+
+<p>This function samples the v parameters, which are then used to calculate the theta parameters
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'theta'
+update(z, ngroup, gamma1, burnin, gibbs.step, theta, phi)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>z</code></td>
+<td>
+<p>vector of size L with cluster assignment of each location</p>
+</td></tr>
+<tr valign="top"><td><code>ngroup</code></td>
+<td>
+<p>maximum number of location groups (K)</p>
+</td></tr>
+<tr valign="top"><td><code>gamma1</code></td>
+<td>
+<p>this is the truncated stick-breaking prior parameter for the
+number of location groups. This value should be between 0 and 1, and
+small values enforce more parsimonius results (i.e., fewer groups)</p>
+</td></tr>
+<tr valign="top"><td><code>burnin</code></td>
+<td>
+<p>number of iterations to drop as part of burn-in phase</p>
+</td></tr>
+<tr valign="top"><td><code>gibbs.step</code></td>
+<td>
+<p>current iteration of the gibbs sampler</p>
+</td></tr>
+<tr valign="top"><td><code>theta</code></td>
+<td>
+<p>vector of length K with the probability of each location group</p>
+</td></tr>
+<tr valign="top"><td><code>phi</code></td>
+<td>
+<p>K x S matrix with the probability of observing each species in each group</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>this function returns a list of 4 items (theta, z, v, and phi)
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>EcoCluster</em> version 1.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Main function of the Species Archetype Model (SAM)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gibbs.SAM {EcoCluster}"><tr><td>gibbs.SAM {EcoCluster}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Main function of the Species Archetype Model (SAM)</h2>
+
+<h3>Description</h3>
+
+<p>Runs the Gibbs sampler and returns samples from the posterior distribution
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gibbs.SAM(y, xmat, ngroups, ngibbs, burnin)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>y</code></td>
+<td>
+<p>this matrix has L rows (locations) and S columns (species) and contains the presence-absence data</p>
+</td></tr>
+<tr valign="top"><td><code>xmat</code></td>
+<td>
+<p>L X P design matrix containing the covariates (columns) for each
+location (rows). Notice that this matrix does not contain a column of 1's for the intercept</p>
+</td></tr>
+<tr valign="top"><td><code>ngroups</code></td>
+<td>
+<p>maximum number of species groups (K)</p>
+</td></tr>
+<tr valign="top"><td><code>ngibbs</code></td>
+<td>
+<p>number of Gibbs sampler iterations</p>
+</td></tr>
+<tr valign="top"><td><code>burnin</code></td>
+<td>
+<p>number of iterations to discard as part of burn-in phase</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>this function returns a list containing several matrices, all of which have
+ngibbs-burnin rows, containing samples from the posterior distribution of:
+</p>
+
+<ul>
+<li><p> logl:  log-likelihood for each iteration
+</p>
+</li>
+<li><p> theta: probability associated with each species group
+</p>
+</li>
+<li><p> betas: slope parameters for each group
+</p>
+</li>
+<li><p> cs:    cluster assignment of each species
+</p>
+</li>
+<li><p> alpha: intercept of each species
+</p>
+</li>
+<li><p> gamma: TSB prior parameter
+</p>
+</li></ul>
+
+
+<hr /><div style="text-align: center;">[Package <em>EcoCluster</em> version 1.0 <a href="00Index.html">Index</a>]</div>
+</body></html>
