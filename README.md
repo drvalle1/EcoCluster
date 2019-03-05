@@ -1,0 +1,26 @@
+
+EcoCluster
+==========
+
+The EcoCluster package implements 3 Bayesian clustering models that rely on a stick-breaking prior to determine the optimal number of clusters, namely:
+
+-   mixture model
+-   stochastic block model (SBM)
+-   species archetype model (SAM)
+
+Results from these models help to reveal the underlying structure of highly multivariate binary data by factorizing these data in different ways.
+
+Installation
+------------
+
+You can install EcoCluster from github with the following code:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("drvalle1/EcoCluster")
+```
+
+Example
+-------
+
+You can find detailed examples of how to fit each of these 3 models and interpret their results in the vignette that accompanies this package.
