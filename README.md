@@ -24,3 +24,8 @@ Example
 -------
 
 You can find detailed examples of how to fit each of these 3 models and interpret their results in the vignette that accompanies this package.
+
+``` r
+library('EcoCluster')
+browseVignettes("EcoCluster")
+```

@@ -32,3 +32,8 @@ devtools::install_github("drvalle1/EcoCluster")
 ## Example
 
 You can find detailed examples of how to fit each of these 3 models and interpret their results in the vignette that accompanies this package.
+
+```{r,eval = FALSE}
+library('EcoCluster')
+browseVignettes("EcoCluster")
+```
