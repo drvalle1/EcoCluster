@@ -79,6 +79,29 @@ plot(theta[1:20],type='h',xlab='clusters',main='number of groups',ylab='theta',l
 abline(v=5,col='red',lty=3,lwd=0.1)
 ```
 
+The estimated `phi` parameters can also be extracted and compared to the true `phi` parameter values. However, because the order of the groups might have changed (i.e., the first estimated group might not correspond to the first group in the simulated data), we have to re-order the groups to then compare the true and estimated `phi` values. This comparison reveals that our algorithm estimated well the `phi` parameters as most points fell near the 1:1 red line.
+
+```{r, eval=TRUE, fig.align='center'}
+#get posterior mean
+phi.estim=matrix(colMeans(res$phi),nrow=50,ncol=nspp)
+rownames(phi.estim)=paste0('groups',1:50)
+colnames(phi.estim)=paste0('spp',1:nspp)
+
+#eliminate superfluous groups
+phi.estim1=phi.estim[1:5,]
+round(phi.estim1[,1:10],2) #just show parameters for first 10 species
+
+#re-order groups to make sure we are comparing the correct groups
+table(data.frame(true.z=z,estim.z=res$z[nrow(res$z),]))
+order1=c(5,1,3,2,4)
+phi.estim2=phi.estim1[order1,]
+
+#compare estimated to true phi parameters
+plot(phi,phi.estim2,xlab='True values',ylab='Estimated values',
+     xlim=c(0,1),ylim=c(0,1),main='phi parameters')
+abline(coef=c(0,1),col='red',lwd=2)
+```
+
 # Stochastic block model
 
 We start by generating simulated data:
@@ -164,6 +187,34 @@ plot(phi[1:20],type='h',xlab='clusters',main='number of species groups',ylab='ph
 abline(v=3,col='red',lty=3,lwd=0.1)
 ```
 
+The estimated `psi` parameters can also be extracted and compared to the true `psi` parameter values. However, because the order of the groups might have changed (i.e., the first estimated group might not correspond to the first group in the simulated data), we have to re-order the groups to then compare the true and estimated `psi` values. This comparison reveals that our algorithm estimated well the `psi` parameters as most points fell near the 1:1 red line.
+
+```{r, eval=TRUE, fig.align='center'}
+#get posterior mean
+psi.estim=matrix(colMeans(res$psi),nrow=50,ncol=50)
+rownames(psi.estim)=paste0('location.groups',1:50)
+colnames(psi.estim)=paste0('spp.groups',1:50)
+
+#eliminate superfluous groups
+psi.estim1=psi.estim[1:5,]
+psi.estim2=psi.estim1[,1:3]
+round(psi.estim2,2) #show estimated parameters
+
+#re-order groups to make sure we are comparing the correct groups
+table(data.frame(true.z=z,estim.z=res$z[nrow(res$z),]))
+ord.location.grps=c(4,3,1,2,5)
+psi.estim3=psi.estim2[ord.location.grps,]
+
+table(data.frame(true.w=w,estim.w=res$w[nrow(res$w),]))
+ord.spp.grps=c(1,3,2)
+psi.estim4=psi.estim3[,ord.spp.grps]
+
+#compare estimated to true parameter values
+plot(psi,psi.estim4,xlab='True values',ylab='Estimated values',
+     xlim=c(0,1),ylim=c(0,1),main='psi parameters')
+abline(coef=c(0,1),col='red',lwd=2)
+```
+
 # Species Archetype model
 
 We start by generating simulated data:
@@ -241,4 +292,41 @@ The next graph shows that the algorithm successfully identified the 5 true speci
 theta=colMeans(res$theta)
 plot(theta[1:20],type='h',xlab='clusters',main='number of species groups',ylab='theta',lwd=2)
 abline(v=5,col='red',lty=3,lwd=0.1)
+```
+
+The estimated `alpha` parameters can also be extracted and compared to the true `alpha` parameter values. This comparison reveals that our algorithm estimated well the `alpha` parameters as most points fell near the 1:1 red line.
+
+```{r, eval=TRUE, fig.align='center'}
+#get posterior mean of species specific intercepts
+alpha.estim=colMeans(res$alpha)
+
+#compare estimated to true parameter values
+range1=range(c(alpha,alpha.estim))
+plot(alpha,alpha.estim,xlab='True values',ylab='Estimated values',
+     xlim=range1,ylim=range1,main='alpha parameters')
+abline(coef=c(0,1),col='red',lwd=2)
+```
+
+The estimated `betas` parameters can also be extracted and compared to the true `betas` parameter values. However, because the order of the groups might have changed (i.e., the first estimated group might not correspond to the first group in the simulated data), we have to re-order the groups to then compare the true and estimated parameters. This comparison reveals that our algorithm estimated well the `betas` parameters as most points fell near the 1:1 red line.
+
+```{r, eval=TRUE, fig.align='center'}
+#get posterior mean
+betas.estim=matrix(colMeans(res$betas),nrow=nparam,ncol=50)
+rownames(betas.estim)=paste0('covariate',1:nparam)
+colnames(betas.estim)=paste0('spp.groups',1:50)
+
+#eliminate superfluous groups
+betas.estim1=betas.estim[,1:5]
+round(betas.estim1,2) #look at estimated regression coefficients
+
+#re-order groups to make sure we are comparing the correct groups
+table(data.frame(true.cs=cs,estim.cs=res$cs[nrow(res$cs),]))
+ord.spp.grps=c(2,4,5,3,1)
+betas.estim2=betas.estim1[,ord.spp.grps]
+
+#compare estimated to true parameters values
+range1=range(c(betas,betas.estim2))
+plot(betas,betas.estim2,xlab='True values',ylab='Estimated values',
+     xlim=range1,ylim=range1,main='beta parameters')
+abline(coef=c(0,1),col='red',lwd=2)
 ```
