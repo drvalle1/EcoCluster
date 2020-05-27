@@ -4,8 +4,21 @@
 \alias{sample.cs}
 \title{Sample cs}
 \usage{
-sample.cs(ngroups, omega, xmat, alpha, betas, theta, nspp, nloc,
-  InvSigma.precalc, Sigma.precalc, lds, cs, nparam)
+sample.cs(
+  ngroups,
+  omega,
+  xmat,
+  alpha,
+  betas,
+  theta,
+  nspp,
+  nloc,
+  InvSigma.precalc,
+  Sigma.precalc,
+  lds,
+  cs,
+  nparam
+)
 }
 \arguments{
 \item{ngroups}{maximum number of species groups (KS)}

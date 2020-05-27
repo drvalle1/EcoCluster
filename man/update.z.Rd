@@ -4,14 +4,31 @@
 \alias{update.z}
 \title{Samples z}
 \usage{
-\method{update}{z}(dat, one.minus.dat, phi, theta, ngroup, nloc, nspp, z)
+\method{update}{z}(
+  dat,
+  nl,
+  n.minus.y,
+  phi,
+  theta,
+  ngroup,
+  nloc,
+  nspp,
+  z,
+  a.prior,
+  b.prior,
+  constant
+)
 }
 \arguments{
-\item{dat}{matrix with L rows (e.g., locations) and S columns (e.g., species),
-containing the presence-absence data}
+\item{dat}{this matrix has L rows (locations) and S columns (species)
+and contains the presence-absence data (i.e., number of times 
+a given species was observed at a given location)}
 
-\item{one.minus.dat}{matrix with L rows (e.g., locations) and S columns (e.g., species),
-calculated as 1-dat}
+\item{nl}{this vector has L elements (locations) and contains the number of observation 
+opportunities at each location}
+
+\item{n.minus.y}{matrix with L rows (e.g., locations) and S columns (e.g., species),
+calculated as matrix(nl,L,S)-dat}
 
 \item{phi}{K x S matrix with the probability of observing each species in each group}
 
@@ -24,6 +41,12 @@ calculated as 1-dat}
 \item{nspp}{number of species (S)}
 
 \item{z}{vector of size L containing the current cluster assignment for each location}
+
+\item{a.prior}{'a' parameter for prior beta distribution}
+
+\item{b.prior}{'b' parameter for prior beta distribution}
+
+\item{constant}{constant term used to calculate probability for a new group}
 }
 \value{
 this function returns a vector of size L with the cluster assignment of each location

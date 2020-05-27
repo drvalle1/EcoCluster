@@ -4,8 +4,19 @@
 \alias{sample.z}
 \title{Sample z}
 \usage{
-sample.z(ltheta, dat, dat1m, lpsi, l1mpsi, ngroup.loc, ngroup.spp, nloc,
-  nspp, w, z)
+sample.z(
+  ltheta,
+  dat,
+  dat1m,
+  lpsi,
+  l1mpsi,
+  ngroup.loc,
+  ngroup.spp,
+  nloc,
+  nspp,
+  w,
+  z
+)
 }
 \arguments{
 \item{ltheta}{equal to log(theta)}

@@ -2,15 +2,18 @@
 #' @importFrom Rcpp sourceCpp
 NULL
 
-#' Main function of the Mixture Model
-#'
 #' Runs the Gibbs sampler and returns samples from the posterior distribution
-#'
+#' 
 #' @param dat this matrix has L rows (locations) and S columns (species)
-#'            and contains the presence-absence data
+#'            and contains the presence-absence data (i.e., number of times 
+#'            a given species was observed at a given location)
+#' @param nl  this vector has L elements (locations) and contains the number of observation 
+#'            opportunities at each location
 #' @param ngroup maximum number of location groups (K)
-#' @param ngibbs number of Gibbs sampler iterations
-#' @param burnin number of iterations to discard as burn-in
+#' @param ngibbs number of Gibbs sampler iterations 
+#' @param burnin number of iterations to discard as burn-in  
+#' @param a.prior 'a' parameter for prior beta distribution
+#' @param b.prior 'b' parameter for prior beta distribution                      
 #' @return this function returns a list containing several matrices.
 #'         These matrices have ngibbs-burnin rows and contain samples from the posterior distribution for:
 #'         \itemize{
@@ -22,12 +25,14 @@ NULL
 #'         }
 #' @export
 
-mixture.gibbs.main.func=function(dat,ngroup,ngibbs,burnin){
+mixture.gibbs=function(dat,ngroup,nl,ngibbs,burnin,a.prior,b.prior){
     
-    #useful pre-calculated quantities
-    one.minus.dat=1-dat
+    #useful pre-calculated quantities 
     nloc=nrow(dat)
     nspp=ncol(dat)
+    nl.mat=matrix(nl,nloc,nspp)
+    n.minus.y=nl.mat-dat
+    constant=nspp*(lgamma(a.prior+b.prior)-lgamma(a.prior)-lgamma(b.prior))
     
     #initial parameter values
     z=sample(1:ngroup,size=nloc,replace=T)
@@ -45,21 +50,35 @@ mixture.gibbs.main.func=function(dat,ngroup,ngibbs,burnin){
     store.logl=rep(NA,ngibbs)
     
     #run gibbs sampler
+    norder=50
     for (i in 1:ngibbs){
         print(i)
         
         #sample group allocation vector z
-        z=update.z(dat=dat,one.minus.dat=one.minus.dat,
-        phi=phi,theta=theta,
-        ngroup=ngroup,nloc=nloc,nspp=nspp,z=z)
+        z=update.z(dat=dat,nl=nl,n.minus.y=n.minus.y,phi=phi,theta=theta,
+                   ngroup=ngroup,nloc=nloc,nspp=nspp,z=z,
+                   a.prior=a.prior,b.prior=b.prior,constant=constant)
+        
+        #re-order groups if necessary
+        if (i%%norder==0 & i<burnin){
+            order1=order(theta,decreasing=T)
+            theta=theta[order1]
+            phi=phi[order1,]
+            znew=rep(NA,nloc)
+            for (j in 1:ngroup){
+                cond=z==order1[j]
+                znew[cond]=j
+            }
+            z=znew
+        }
         
         #summarize the data
         #determine the number of times a particular species was observed in each location group. This is ncs1
         #determine the number of times a particular species was not observed in each location group. This is ncs0
-        tmp=ncs(dat=dat,z=z-1,nspp=nspp,nloc=nloc,ngroup=ngroup)
+        tmp=ncs(dat=dat,nminusy=n.minus.y,z=z-1,nspp=nspp,nloc=nloc,ngroup=ngroup)
         
         #sample the phi matrix containing the spp composition characterization of each group of locations
-        phi=matrix(rbeta(ngroup*nspp,tmp$ncs1+1,tmp$ncs0+1),ngroup,nspp)
+        phi=matrix(rbeta(ngroup*nspp,tmp$ncs1+a.prior,tmp$ncs0+b.prior),ngroup,nspp)
         
         #sample v and theta (this might also result in changes for z and phi)
         tmp=update.theta(z=z,ngroup=ngroup,gamma1=gamma1,burnin=burnin,gibbs.step=i,theta=theta,phi=phi)
@@ -73,7 +92,7 @@ mixture.gibbs.main.func=function(dat,ngroup,ngibbs,burnin){
         
         #get loglikelihood
         prob=phi[z,]
-        logl=dbinom(dat,size=1,prob=prob,log=T)
+        logl=dbinom(dat,size=nl.mat,prob=prob,log=T)
         
         #store results
         store.phi[i,]=phi
@@ -86,5 +105,5 @@ mixture.gibbs.main.func=function(dat,ngroup,ngibbs,burnin){
     #output MCMC results after discarding the burn-in phase
     seq1=burnin:ngibbs
     list(phi=store.phi[seq1,],theta=store.theta[seq1,],logl=store.logl[seq1],
-    z=store.z[seq1,],gamma=store.gamma[seq1])
+         z=store.z[seq1,],gamma=store.gamma[seq1])
 }

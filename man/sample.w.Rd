@@ -4,8 +4,19 @@
 \alias{sample.w}
 \title{Sample w}
 \usage{
-sample.w(lphi, dat, dat1m, lpsi, l1mpsi, ngroup.spp, ngroup.loc, nloc,
-  nspp, w, z)
+sample.w(
+  lphi,
+  dat,
+  dat1m,
+  lpsi,
+  l1mpsi,
+  ngroup.spp,
+  ngroup.loc,
+  nloc,
+  nspp,
+  w,
+  z
+)
 }
 \arguments{
 \item{lphi}{equal to log(phi)}

@@ -2,26 +2,10 @@
 % Please edit documentation in R/RcppExports.R
 \name{ncs}
 \alias{ncs}
-\title{Summarize the data for mixture model}
+\title{This function calculates ncs1 and ncs0}
 \usage{
-ncs(dat, z, nspp, nloc, ngroup)
-}
-\arguments{
-\item{dat}{matrix with L rows (e.g., locations) and S columns (e.g., species),
-containing the presence-absence data}
-
-\item{z}{vector of size L with cluster assignment for each location}
-
-\item{nspp}{number of species (S)}
-
-\item{nloc}{number of locations (L)}
-
-\item{ngroup}{maximum number of groups (K)}
-}
-\value{
-this function returns a list containing two matrices of size K x S: res1 and res0
+ncs(dat, nminusy, z, nspp, nloc, ngroup)
 }
 \description{
-This function summarizes the data by calculating the number of locations for each 
-location group and species for which dat(i,j)=1 (stored in res1) and dat(i,j)=0 (stored in res0)
+This function calculates ncs1 and ncs0
 }

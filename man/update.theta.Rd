@@ -11,7 +11,7 @@
 
 \item{ngroup}{maximum number of location groups (K)}
 
-\item{gamma1}{this is the truncated stick-breaking prior parameter for the
+\item{gamma1}{this is the truncated stick-breaking prior parameter for the 
 number of location groups. This value should be between 0 and 1, and
 small values enforce more parsimonius results (i.e., fewer groups)}
 
