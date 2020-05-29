@@ -6,17 +6,18 @@
 using namespace Rcpp;
 
 // ncs
-Rcpp::List ncs(IntegerMatrix dat, IntegerVector z, int nspp, int nloc, int ngroup);
-RcppExport SEXP _EcoCluster_ncs(SEXP datSEXP, SEXP zSEXP, SEXP nsppSEXP, SEXP nlocSEXP, SEXP ngroupSEXP) {
+Rcpp::List ncs(IntegerMatrix dat, IntegerMatrix nminusy, IntegerVector z, int nspp, int nloc, int ngroup);
+RcppExport SEXP _EcoCluster_ncs(SEXP datSEXP, SEXP nminusySEXP, SEXP zSEXP, SEXP nsppSEXP, SEXP nlocSEXP, SEXP ngroupSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< IntegerMatrix >::type dat(datSEXP);
+    Rcpp::traits::input_parameter< IntegerMatrix >::type nminusy(nminusySEXP);
     Rcpp::traits::input_parameter< IntegerVector >::type z(zSEXP);
     Rcpp::traits::input_parameter< int >::type nspp(nsppSEXP);
     Rcpp::traits::input_parameter< int >::type nloc(nlocSEXP);
     Rcpp::traits::input_parameter< int >::type ngroup(ngroupSEXP);
-    rcpp_result_gen = Rcpp::wrap(ncs(dat, z, nspp, nloc, ngroup));
+    rcpp_result_gen = Rcpp::wrap(ncs(dat, nminusy, z, nspp, nloc, ngroup));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -60,7 +61,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_EcoCluster_ncs", (DL_FUNC) &_EcoCluster_ncs, 5},
+    {"_EcoCluster_ncs", (DL_FUNC) &_EcoCluster_ncs, 6},
     {"_EcoCluster_rmultinom1", (DL_FUNC) &_EcoCluster_rmultinom1, 2},
     {"_EcoCluster_getql", (DL_FUNC) &_EcoCluster_getql, 5},
     {"_EcoCluster_convertSBtoNormal", (DL_FUNC) &_EcoCluster_convertSBtoNormal, 1},
