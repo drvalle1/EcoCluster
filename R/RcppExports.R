@@ -3,20 +3,25 @@
 
 #' Summarize the data for mixture model
 #' 
-#' This function summarizes the data by calculating the number of locations for each 
-#' location group and species for which dat(i,j)=1 (stored in res1) and dat(i,j)=0 (stored in res0)
+#' This function summarizes the data by calculating the number of observations across all locations 
+#' assigned to a given group for which the species was present (stored in res1) or absent (stored in res0)
 #' 
-#' @param dat matrix with L rows (e.g., locations) and S columns (e.g., species),
-#'        containing the presence-absence data
+#' @param dat this matrix has L rows (locations) and S columns (species)
+#'            and contains the presence-absence data (i.e., number of times 
+#'            a given species was observed at a given location)
+#' @param n.minus.y matrix with L rows (e.g., locations) and S columns (e.g., species),
+#'                  calculated as matrix(nl,L,S)-dat           
 #' @param z vector of size L with cluster assignment for each location
 #' @param nspp number of species (S)
 #' @param nloc number of locations (L)
 #' @param ngroup maximum number of groups (K)
 #' @return this function returns a list containing two matrices of size K x S: res1 and res0
 #' @export
-#'
-ncs <- function(dat, z, nspp, nloc, ngroup) {
-    .Call('_EcoCluster_ncs', PACKAGE = 'EcoCluster', dat, z, nspp, nloc, ngroup)
+NULL
+
+#' This function calculates ncs1 and ncs0
+ncs <- function(dat, nminusy, z, nspp, nloc, ngroup) {
+    .Call('_EcoCluster_ncs', PACKAGE = 'EcoCluster', dat, nminusy, z, nspp, nloc, ngroup)
 }
 
 rmultinom1 <- function(prob, randu) {
