@@ -1,20 +1,21 @@
 Package: EcoCluster
 Title: Bayesian Clustering using Truncated Stick-Breaking priors
-Version: 1.0
+Version: 2.0
 Author: Denis Valle <drvalle@ufl.edu>
 Maintainer: Denis Valle <drvalle@ufl.edu>
-Description: An implementation of three different types of Bayesian clustering methods: 
-	mixture models, stochastic block models, and species archetype models. The 
-	number of clusters is automatically estimated from the data using a Bayesian 
-	nonparametric approach based on truncated Stick-Breaking priors.
-Depends: R (>= 3.4.4)
+Description: An implementation of three different types of Bayesian 
+    clustering methods: mixture models, stochastic block models, and 
+    species archetype models. The number of clusters is automatically 
+    estimated from the data using a Bayesian nonparametric approach 
+    based on truncated Stick-Breaking priors. 
+Depends: R (>= 3.5.2)
 Imports: Rcpp, mvtnorm
 LinkingTo: Rcpp
+LazyData: true
 Suggests: rmarkdown, knitr, testthat
 VignetteBuilder: knitr
 License: GPL-2
 Encoding: UTF-8
-LazyData: true
-RoxygenNote: 6.1.1.9000
+RoxygenNote: 7.1.0
 NeedsCompilation: yes
-Packaged: 2019-03-06 20:36:52 UTC; Brenda
+Packaged: 2020-05-29 13:18:58 UTC; drvalle
