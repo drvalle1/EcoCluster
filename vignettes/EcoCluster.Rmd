@@ -11,7 +11,7 @@ vignette: >
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 ```
 
-This vignette illustrates three different types of Bayesian clustering methods using truncated stick-breaking priors: mixture models, stochastic block models (SBM), and species archetype models (SAM). We apply these three clustering methods to simulated data to showcase how the number of groups can be successfully recovered.
+This vignette illustrates two different types of Bayesian clustering methods using truncated stick-breaking priors: mixture models and species archetype models (SAM). We apply these two clustering methods to simulated data to showcase how the number of groups can be successfully recovered.
 
 # Mixture model
 
@@ -41,13 +41,123 @@ rownames(y)=paste0('loc',1:nloc)
 head(y[,1:13])
 ```
 
-To obtain posterior samples from the mixture model parameters, we rely on the function `mixture.gibbs.main.func`. The user needs to specify the following arguments:
+To obtain posterior samples from the mixture model parameters, we rely on the function `mixture.gibbs`. The user needs to specify the following arguments:
 
-* `dat`:    binary matrix containing the data (rows are locations and columns are species) 
-* `ngroup`: maximum number of groups
-* `ngibbs`: number of iterations for the Gibbs sampler
-* `burnin`: number of iterations to be discarded as burn-in.
+* `dat`:     binary matrix containing the data (rows are locations and columns are species) 
+* `ngroup`:  maximum number of groups
+* `nl`:      a vector with L elements (locations) containing the number of observation  opportunities at each location
+* `ngibbs`:  number of iterations for the Gibbs sampler
+* `burnin`:  number of iterations to be discarded as burn-in.
+* `a.prior`: "a" parameter for prior beta distribution
+* `b.prior`: "b" parameter for prior beta distribution
 
 ```{r,eval=TRUE,results='hide'}
 library('EcoCluster')
+ngibbs=1000
+res=mixture.gibbs(dat=y,ngroup=50,nl=rep(1,nrow(y)),ngibbs=ngibbs,burnin=ngibbs/2,a.prior=1,b.prior=1)
+```
+
+```{r,eval=TRUE}
+str(res)
+```
+
+The output is a list with 5 elements: 
+
+* `phi`:   probability of observing each species in each group
+* `theta`: proportion of each location group
+* `logl`:  log-likelihood 
+* `z`:     cluster assignment of each location
+* `gamma`: TSB prior parameter
+
+The graph below with the log-likelihood suggests that this algorithm has successfully converged after discarding the burn-in iterations. 
+
+```{r,eval=TRUE}
+plot(res$logl,type='l',main='convergence assessment',xlab='Gibbs iterations',ylab='log-likelihood')
+```
+
+The next graph shows that the algorithm successfully identified the 5 true location groups, with the remaining groups being very small or empty.
+
+```{r,eval=TRUE}
+theta=colMeans(res$theta)
+plot(theta[1:20],type='h',xlab='clusters',main='number of groups',ylab='theta',lwd=2)
+abline(v=5,col='red',lty=3,lwd=0.1)
+```
+
+# Species Archetype model
+
+We start by generating simulated data:
+```{r,eval=TRUE}
+rm(list=ls(all=TRUE))
+library('mvtnorm')
+set.seed(1)
+
+#general settings
+nloc=300   #number of locations
+nspp=50    #number of species
+nparam=6   #number of covariates
+ngroup1=5  #number of species groups
+
+#create design matrix with covariates
+xmat=matrix(rnorm(nparam*nloc),nloc,nparam)
+
+#set parameters
+alpha=rnorm(nspp,mean=0,sd=0.4) #intercept of each species
+tmp=rnorm(nparam*ngroup1)
+betas=matrix(tmp,nparam,ngroup1) #slope parameters for each group
+cs=sample(1:ngroup1,size=nspp,replace=T) #cluster assignment for each species
+
+#generate data assuming a probit formulation    
+omega=matrix(NA,nloc,nspp)
+for (i in 1:nspp){
+  media=alpha[i]+xmat%*%betas[,cs[i]]
+  omega[,i]=rnorm(nloc,mean=media,sd=1)
+}
+y=omega.true=omega
+y[omega>0]=1
+y[omega<0]=0
+
+colnames(y)=paste0('spp',1:nspp)
+rownames(y)=paste0('loc',1:nloc)
+head(y[,1:13])
+```
+
+To obtain posterior samples from the species archetype model parameters, we rely on the function `gibbs.SAM`. The user needs to specify the following arguments:
+
+* `y`:       binary matrix containing the data (rows are locations and columns are species)
+* `xmat`:    matrix containing the predictor variables (rows are locations and columns are predictor variables)
+* `ngroups`: maximum number of species groups
+* `ngibbs`:  number of iterations for the Gibbs sampler
+* `burnin`:  number of iterations to be discarded as burn-in.
+
+```{r,eval=TRUE,results='hide'}
+library('EcoCluster')
+ngibbs=1000
+
+res=gibbs.SAM(y=y,xmat=xmat,ngroups=50,ngibbs=ngibbs,burnin=ngibbs/2)
+```
+```{r,eval=TRUE}
+str(res)
+```
+
+The output is a list with 6 elements: 
+
+* `theta`: probability of each species group
+* `logl`:  log-likelihood
+* `betas`: slope parameters for each group
+* `cs`:    cluster assignment of each species
+* `alpha`: intercept of each species
+* `gamma`: TSB prior parameter
+
+The graph below with the log-likelihood suggests that this algorithm has successfully converged after discarding the burn-in iterations. 
+
+```{r,eval=TRUE}
+plot(res$logl,type='l',main='convergence assessment',xlab='Gibbs iterations',ylab='log-likelihood')
+```
+
+The next graph shows that the algorithm successfully identified the 5 true species groups.
+
+```{r,eval=TRUE}
+theta=colMeans(res$theta)
+plot(theta[1:20],type='h',xlab='clusters',main='number of species groups',ylab='theta',lwd=2)
+abline(v=5,col='red',lty=3,lwd=0.1)
 ```
