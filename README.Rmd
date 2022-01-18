@@ -2,20 +2,22 @@
 output: github_document
 ---
 
-```{r, echo = FALSE}
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "README-"
+  fig.path = "man/figures/README-",
+  out.width = "100%"
 )
 ```
 
 # EcoCluster
 
-The EcoCluster package implements 3 Bayesian clustering models that rely on a stick-breaking prior to determine the optimal number of clusters, namely: 
+The EcoCluster package implements 2 Bayesian clustering models that rely on a stick-breaking prior to determine the optimal number of clusters, namely: 
 
 - mixture model
-- stochastic block model (SBM)
 - species archetype model (SAM)
 
 Results from these models help to reveal the underlying structure of highly multivariate binary data by factorizing these data in different ways.
@@ -29,11 +31,154 @@ You can install EcoCluster from github with the following code:
 devtools::install_github("drvalle1/EcoCluster")
 ```
 
-## Example
+We apply these two clustering methods to simulated data to showcase how the number of groups can be successfully recovered.
 
-You can find detailed examples of how to fit each of these 3 models and interpret their results in the vignette that accompanies this package.
+## Mixture model example
 
-```{r,eval = FALSE}
+We start by generating simulated data:
+```{r,eval=TRUE}
+rm(list=ls(all=TRUE))
+set.seed(1)
+
+#general settings
+nloc=300 #number of locations
+nspp=50  #number of species
+ngroup=5 #number of groups
+
+#set parameters
+z=sample(1:ngroup,size=nloc,replace=T)         #cluster assignment of each location
+phi=matrix(rbeta(ngroup*nspp,1,1),ngroup,nspp) #species composition of each cluster  
+
+#generate data
+y=matrix(NA,nloc,nspp)
+for (i in 1:nloc){
+  phi1=phi[z[i],]
+  y[i,]=rbinom(nspp,size=1,prob=phi1)
+}
+colnames(y)=paste0('spp',1:nspp)
+rownames(y)=paste0('loc',1:nloc)
+
+head(y[,1:13])
+```
+
+To obtain posterior samples from the mixture model parameters, we rely on the function `mixture.gibbs`. The user needs to specify the following arguments:
+  
+  * `dat`:     binary matrix containing the data (rows are locations and columns are species) 
+* `ngroup`:  maximum number of groups
+* `nl`:      a vector with L elements (locations) containing the number of observation  opportunities at each location
+* `ngibbs`:  number of iterations for the Gibbs sampler
+* `burnin`:  number of iterations to be discarded as burn-in.
+* `a.prior`: "a" parameter for prior beta distribution
+* `b.prior`: "b" parameter for prior beta distribution
+
+```{r,eval=TRUE,results='hide'}
 library('EcoCluster')
-browseVignettes("EcoCluster")
+ngibbs=1000
+res=mixture.gibbs(dat=y,ngroup=50,nl=rep(1,nrow(y)),ngibbs=ngibbs,burnin=ngibbs/2,a.prior=1,b.prior=1)
+```
+
+
+```{r,eval=TRUE}
+str(res)
+```
+
+The output is a list with 5 elements: 
+  
+  * `phi`:   probability of observing each species in each group
+* `theta`: proportion of each location group
+* `logl`:  log-likelihood 
+* `z`:     cluster assignment of each location
+* `gamma`: TSB prior parameter
+
+The graph below with the log-likelihood suggests that this algorithm has successfully converged after discarding the burn-in iterations. 
+
+```{r,eval=TRUE}
+plot(res$logl,type='l',main='convergence assessment',xlab='Gibbs iterations',ylab='log-likelihood')
+```
+
+The next graph shows that the algorithm successfully identified the 5 true location groups, with the remaining groups being very small or empty.
+
+```{r,eval=TRUE}
+theta=colMeans(res$theta)
+plot(theta[1:20],type='h',xlab='clusters',main='number of groups',ylab='theta',lwd=2)
+abline(v=5,col='red',lty=3,lwd=0.1)
+```
+
+## Species Archetype model example
+
+We start by generating simulated data:
+```{r,eval=TRUE}
+rm(list=ls(all=TRUE))
+library('mvtnorm')
+set.seed(1)
+
+#general settings
+nloc=300   #number of locations
+nspp=50    #number of species
+nparam=6   #number of covariates
+ngroup1=5  #number of species groups
+
+#create design matrix with covariates
+xmat=matrix(rnorm(nparam*nloc),nloc,nparam)
+
+#set parameters
+alpha=rnorm(nspp,mean=0,sd=0.4) #intercept of each species
+tmp=rnorm(nparam*ngroup1)
+betas=matrix(tmp,nparam,ngroup1) #slope parameters for each group
+cs=sample(1:ngroup1,size=nspp,replace=T) #cluster assignment for each species
+
+#generate data assuming a probit formulation    
+omega=matrix(NA,nloc,nspp)
+for (i in 1:nspp){
+  media=alpha[i]+xmat%*%betas[,cs[i]]
+  omega[,i]=rnorm(nloc,mean=media,sd=1)
+}
+y=omega.true=omega
+y[omega>0]=1
+y[omega<0]=0
+
+colnames(y)=paste0('spp',1:nspp)
+rownames(y)=paste0('loc',1:nloc)
+head(y[,1:13])
+```
+
+To obtain posterior samples from the species archetype model parameters, we rely on the function `gibbs.SAM`. The user needs to specify the following arguments:
+  
+  * `y`:       binary matrix containing the data (rows are locations and columns are species)
+* `xmat`:    matrix containing the predictor variables (rows are locations and columns are predictor variables)
+* `ngroups`: maximum number of species groups
+* `ngibbs`:  number of iterations for the Gibbs sampler
+* `burnin`:  number of iterations to be discarded as burn-in.
+
+```{r,eval=TRUE,results='hide'}
+library('EcoCluster')
+ngibbs=1000
+
+res=gibbs.SAM(y=y,xmat=xmat,ngroups=50,ngibbs=ngibbs,burnin=ngibbs/2)
+```
+```{r,eval=TRUE}
+str(res)
+```
+
+The output is a list with 6 elements: 
+  
+  * `theta`: probability of each species group
+* `logl`:  log-likelihood
+* `betas`: slope parameters for each group
+* `cs`:    cluster assignment of each species
+* `alpha`: intercept of each species
+* `gamma`: TSB prior parameter
+
+The graph below with the log-likelihood suggests that this algorithm has successfully converged after discarding the burn-in iterations. 
+
+```{r,eval=TRUE}
+plot(res$logl,type='l',main='convergence assessment',xlab='Gibbs iterations',ylab='log-likelihood')
+```
+
+The next graph shows that the algorithm successfully identified the 5 true species groups.
+
+```{r,eval=TRUE}
+theta=colMeans(res$theta)
+plot(theta[1:20],type='h',xlab='clusters',main='number of species groups',ylab='theta',lwd=2)
+abline(v=5,col='red',lty=3,lwd=0.1)
 ```

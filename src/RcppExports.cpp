@@ -5,6 +5,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // ncs
 Rcpp::List ncs(IntegerMatrix dat, IntegerMatrix nminusy, IntegerVector z, int nspp, int nloc, int ngroup);
 RcppExport SEXP _EcoCluster_ncs(SEXP datSEXP, SEXP nminusySEXP, SEXP zSEXP, SEXP nsppSEXP, SEXP nlocSEXP, SEXP ngroupSEXP) {
